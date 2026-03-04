@@ -2,29 +2,18 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    public float speed = 10f;
-    public float rotationSpeed = 100f;
+    public float speed = 12f;
+    public float turnSpeed = 200f;
 
-    private Rigidbody rb;
-
-    void Start()
+    void Update()
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        float move = Input.GetAxis("Vertical");
+        float turn = Input.GetAxis("Horizontal");
 
-    void FixedUpdate()
-    {
-        float move = Input.GetAxis("Vertical");   // W/S หรือ ↑/↓
-        float turn = Input.GetAxis("Horizontal"); // A/D หรือ ←/→
+        
+        transform.position += transform.forward * move * speed * Time.deltaTime;
 
-        // เดินหน้า-ถอยหลัง
-        Vector3 movement = transform.forward * move * speed;
-        rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
-
-        // หมุนซ้ายขวา
-        if (move != 0)
-        {
-            transform.Rotate(Vector3.up * turn * rotationSpeed * Time.fixedDeltaTime);
-        }
+        
+        transform.Rotate(0f, turn * turnSpeed * Time.deltaTime, 0f);
     }
 }
